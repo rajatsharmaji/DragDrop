@@ -1,38 +1,46 @@
 import React from "react";
 import axios from "axios";
+
 class Login extends React.Component {
   constructor() {
     super();
     this.state = {
       data: null,
+      username: "",
+      password: ""
     };
+    // Bind the onSubmit method to the current instance of the component
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-    async onSubmit(){
+  async onSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
     const url = "http://localhost:3001/user/get";
-    const userEmail = "rajat@gmail.com";
-    const userPassword = "password";
 
     try {
       const response = await axios.get(url, {
         params: {
-          email: userEmail,
-          password: userPassword,
+          email: this.state.username,
+          password: this.state.password
         },
-        timeout: 5000,
+        timeout: 5000
       });
+      console.log("Success!", response.data);
       this.setState({ data: response.data });
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled:", error.message);
-      } else {
-        console.error("Error:", error);
-      }
+      console.error("Error:", error);
     }
   }
-  render() {
-    // const { data } = this.state;
 
+  handleChange(event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  render() {
     return (
       <div className="container login-container">
         <div className="row justify-content-center">
@@ -42,7 +50,7 @@ class Login extends React.Component {
                 <h3 className="text-center">Login</h3>
               </div>
               <div className="card-body">
-                <form>
+                <form onSubmit={this.onSubmit}>
                   <div className="form-group">
                     <label htmlFor="username">Username:</label>
                     <input
@@ -50,6 +58,8 @@ class Login extends React.Component {
                       className="form-control"
                       id="username"
                       placeholder="Enter your username"
+                      value={this.state.username}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -59,6 +69,8 @@ class Login extends React.Component {
                       className="form-control"
                       id="password"
                       placeholder="Enter your password"
+                      value={this.state.password}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <button type="submit" className="btn btn-primary btn-block">

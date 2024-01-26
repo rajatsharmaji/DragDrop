@@ -22,6 +22,7 @@ export const addUserService = async (req, res) => {
 export const getUserService = async (req, res) => {
   const email = req.query.email;
   const password = req.query.password;
+  console.log(email,password)
   try {
     const user = await User.findOne({ email: email });
     if (!user) res.json({ msg: "User does not exist" });
