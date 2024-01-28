@@ -9,6 +9,11 @@ import { BsFiletypeCss } from "react-icons/bs";
 
 function GrapesEditor() {
   useEffect(() => {
+    const projectID = 1;
+    const projectEndpoint = `http://localhost:3003/projects/${projectID}`;
+    
+    // const projectEndpoint = `http://localhost:3003/projects/add/`;
+    // const projectEndpointPatch = `http://localhost:3003/projects/get/`;
     const editor = grapesjs.init({
       container: "#gjs",
       fromElement: false,
@@ -16,7 +21,7 @@ function GrapesEditor() {
       // attributes: { "some-attribute": "some-value" },
       height: "100vh",
       width: "auto",
-      storageManager: false,
+      // storageManager: false,
       // panels: { defaults: [] },
     
       blockManager: {
@@ -116,6 +121,39 @@ function GrapesEditor() {
       layerManager: {
         appendTo: ".layers-container",
       },
+
+      storageManager: {
+        type: 'remote',
+        autosave: true, // Store data automatically
+        autoload: true, // Autoload stored data on init
+        stepsBeforeSave: 1,
+        options: {
+          remote: {
+            urlLoad: projectEndpoint,
+            urlStore: projectEndpoint,
+            // The `remote` storage uses the POST method when stores data but
+            // the json-server API requires PATCH.
+            fetchOptions: opts => (opts.method === 'POST' ?  { method: 'PATCH' } : {}),
+            // As the API stores projects in this format `{id: 1, data: projectData }`,
+            // we have to properly update the body before the store and extract the
+            // project data from the response result.
+            onStore: data =>{
+              console.log("STORING", JSON.stringify({...data, id: Date.now()}));
+              return {data: JSON.stringify({...data, id: Date.now()})}
+              // return { id: projectID, data }},
+            },
+            onLoad: async result => {
+              try {
+                console.log("LOADING");
+                return result.data;
+              } catch (error) {
+                console.error('Error loading data:', error);
+                throw error; // Rethrow the error to indicate failure
+              }
+            }
+          }
+        }
+      }
     });
     
     editor.Panels.addPanel({
