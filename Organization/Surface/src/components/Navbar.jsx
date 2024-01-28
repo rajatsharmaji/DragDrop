@@ -5,7 +5,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/dragdrop">
           DragDrop
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
