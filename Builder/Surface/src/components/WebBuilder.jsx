@@ -10,7 +10,7 @@ import { BsFiletypeCss } from "react-icons/bs";
 function GrapesEditor() {
   useEffect(() => {
     const projectID = 1;
-    const projectEndpoint = `http://localhost:3003/projects/${projectID}`;
+    const projectEndpoint = `http://localhost:3003/project/${projectID}`;
     
     // const projectEndpoint = `http://localhost:3003/projects/add/`;
     // const projectEndpointPatch = `http://localhost:3003/projects/get/`;
@@ -139,16 +139,16 @@ function GrapesEditor() {
             // project data from the response result.
             onStore: data =>{
               console.log("STORING", JSON.stringify({...data, id: Date.now()}));
-              return {data: JSON.stringify({...data, id: Date.now()})}
+              // return {data: JSON.stringify({...data, id: Date.now()})}
               // return { id: projectID, data }},
             },
-            onLoad: async result => {
+            onLoad: result => {
               try {
-                console.log("LOADING");
-                return result.data;
+                console.log("LOADING", result);
+                // return result.data;
               } catch (error) {
                 console.error('Error loading data:', error);
-                throw error; // Rethrow the error to indicate failure
+                // throw error; // Rethrow the error to indicate failure
               }
             }
           }
