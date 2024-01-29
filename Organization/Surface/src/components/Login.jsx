@@ -27,7 +27,7 @@ class Login extends React.Component {
         },
         timeout: 5000
       });
-      console.log("Success!", response.data);
+      sessionStorage.setItem("token",response.data.token);
       this.setState({ data: response.data });
     } catch (error) {
       console.error("Error:", error);

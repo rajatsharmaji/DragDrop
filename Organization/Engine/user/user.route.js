@@ -1,4 +1,5 @@
 import express from 'express'
+import { verifyToken } from '../middlewares/auth.js';
 import { addUserService, getUserService } from './user.service.js'
 
 const userRouter = express.Router();
