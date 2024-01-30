@@ -14,7 +14,7 @@ function App() {
             <Navbar/>
           <Routes>
             <Route path='/dragdrop' element={<GrapesEditor/>}/>
-            <Route path='/login' element={<Login/>}/>
+            <Route path='/' element={<Login/>}/>
             <Route path='/register' element={<SignUp/>}/>
           </Routes>
         </Router>

@@ -17,7 +17,8 @@ export const addUserService = async (req, res) => {
       email: email,
     });
     await user.save();
-    res.json({ msg: "new user created successfully", User: user });
+    res.status(200).json({ msg: "new user created successfully", User: user });
+    // res.json({ msg: "new user created successfully", User: user });
   } catch (e) {
     res.json("error", e);
   }
@@ -33,8 +34,10 @@ export const getUserService = async (req, res) => {
     else {
       const hashPassword = user.password;
       if (await bcrypt.compare(password, hashPassword)){
+        const uid = user._id;
+        console.log(uid);
         const token = jwt.sign({userEmail:email},SECRET_KEY,{expiresIn:'1m'});
-        res.status(200).json({ token });
+        res.status(200).json({ uid,token });
         // res.json({msg:"login done"})
       }
       else {

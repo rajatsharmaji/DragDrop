@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios"; // Import axios for making HTTP requests
+import { Alert } from "bootstrap";
 
 class SignUp extends React.Component {
   constructor() {
@@ -26,9 +27,11 @@ class SignUp extends React.Component {
         email: this.state.email, // Changed from username to email
         password: this.state.password,
       });
+      alert('Registered!');
       console.log("Success!", response.data);
       this.setState({ data: response.data });
     } catch (error) {
+      alert(error)
       console.error("Error:", error);
     }
   }

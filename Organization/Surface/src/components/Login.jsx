@@ -28,8 +28,11 @@ class Login extends React.Component {
         timeout: 5000
       });
       sessionStorage.setItem("token",response.data.token);
+      sessionStorage.setItem("uid",response.data.uid);
+      alert("successfully logged in")
       this.setState({ data: response.data });
     } catch (error) {
+      alert(error)
       console.error("Error:", error);
     }
   }
